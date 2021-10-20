@@ -1,0 +1,65 @@
+﻿<Window x:Class="SubtitleFixer.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SubtitleFixer"
+        mc:Ignorable="d"
+        Title="MessageWindow" 
+        Height="85"
+        Width="250"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Topmost="True"
+        WindowStartupLocation="CenterOwner"
+        MouseDown="WindowMove" ShowInTaskbar="False">
+    <Grid Background="Transparent">
+
+        <Border Background="#242423" 
+                CornerRadius="10"
+                BorderThickness="0">
+
+        </Border>
+        
+        <StackPanel Background="Transparent">
+                
+            <TextBlock Text="فایل ها با موفقیت اصلاح شدند" 
+                       Name="TxtMessage"
+                       Margin="10"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center"
+                       FontSize="14"
+                       Foreground="#E8EDDF"
+                       FontFamily="Fonts/#Sepahbod"
+                       Grid.Row="0"/>
+            <Button HorizontalAlignment="Center"
+                    Name="BtnOk"
+                    Click="BtnOk_Click"
+                    Grid.Row="1"
+                    Height="auto"
+                    Width="auto" IsDefault="True">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Height="auto" Width="auto">
+                            <Border Background="#F5CB5C" 
+                                    CornerRadius="5" 
+                                    Padding="20,5" 
+                                   >
+                                <TextBlock Text="بستن"
+                                           Foreground="#242423"
+                                           FontFamily="Fonts/#Sepahbod"
+                                           FontSize="12"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+
+</Window>

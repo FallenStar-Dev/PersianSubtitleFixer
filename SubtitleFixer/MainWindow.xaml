@@ -1,0 +1,263 @@
+﻿<Window x:Class="SubtitleFixer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SubtitleFixer"
+        mc:Ignorable="d"
+        Title="Subtitle Fixer" 
+        Height="270" Width="400"
+        AllowDrop="True" 
+        ResizeMode="NoResize" 
+        Drop="FrmMainWindow_Drop" 
+        Topmost="True" 
+        WindowStartupLocation="CenterScreen"
+        MouseDown="WindowMove"
+        DragOver="Window_DragOver"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent"
+        Name="MWindow"
+        DragLeave="Window_DragLeave" 
+        Icon="Icons/windowIcon.png">
+    <Window.Resources>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border Margin="2" CornerRadius="5" BorderBrush="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" BorderThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#242423"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#242423"/>
+        <SolidColorBrush x:Key="Button.Static.TextElement.Forground" Color="#CFDBD5"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#333533"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#F5CB5C"/>
+        <SolidColorBrush x:Key="Button.MouseOver.TextElement.Forground" Color="#F5CB5C"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#F5CB5C"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#333533"/>
+        <SolidColorBrush x:Key="Button.Pressed.TextElement.Forground" Color="#242423"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{StaticResource Button.Static.TextElement.Forground}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="2 0"/>
+            <Setter Property="FontSize" Value="9"  />
+            <Setter Property="FontFamily" Value="Fonts/#Sepahbod"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Opacity=".7" CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter"  Value="{StaticResource Button.MouseOver.TextElement.Forground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter"  Value="{StaticResource Button.Pressed.TextElement.Forground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <ControlTemplate x:Key="ExpanderBtnTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Border x:Name="BtnStartBorder" Background="#E8EDDF" BorderThickness="2" CornerRadius="5"/>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="TxtStart" Foreground="#333333" FontFamily="Fonts/#Sepahbod" FontWeight="Bold" HorizontalAlignment="Center" Text="شروع اصلاح" VerticalAlignment="Center"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="BtnStartBorder" Value="#F5CB5C"/>
+                    <Setter Property="Foreground" TargetName="TxtStart" Value="#242423"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+
+    <Grid  Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".8*"/>
+            <RowDefinition Height=".09*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Name="MotherBorder"
+                CornerRadius="10" 
+                Opacity="0.8" 
+                Grid.RowSpan="3"
+                Background="#333533"/>
+
+        <Border Name="Drag_DropBorder" 
+                Grid.Row="1"
+                CornerRadius="10"
+                Margin="10,0,10,5"
+                Opacity=".7"
+                Background="#242423">
+            <StackPanel>
+                <Image Source="Images/DragDrop.png" Width="50" Margin="25" />
+                <TextBlock  Foreground="#CFDBD5"
+                            Text="فایل ها و پوشه های مربوط به زیرنویس را اینجا کشیده و رها کنید" 
+                            FontSize="10" 
+                            TextAlignment="Center" 
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" 
+                            FontFamily="Fonts/#Sepahbod"
+                            Name="LblHelp">
+                </TextBlock>
+                <Button Template="{DynamicResource ExpanderBtnTemplate}" 
+                        Name="Btn_Start"  
+                        Height="30" 
+                        Width="80" 
+                        Margin="20"
+                        Click="Btn_Start_Click"
+                        IsEnabled="False"/>
+            </StackPanel>
+        </Border>
+        <TextBlock HorizontalAlignment="Center" 
+                   Name="TxtTitle"
+                   TextAlignment="Center" 
+                   Text="اصلاح زیرنویس پارسی"
+                   Grid.Row="0"
+                   VerticalAlignment="Center"
+                   FontFamily="Fonts/#Sepahbod"
+                   Foreground="#CFDBD5">
+            
+        </TextBlock>
+        <DockPanel Grid.Row="0">
+            <Expander Name="MainExp"
+                      Style="{StaticResource MyExpanderStyle}" 
+                      ExpandDirection="Right" 
+                      Margin="10,7,0,0"
+                      Padding="0,0,10,0" Collapsed="MainExp_Collapsed" Expanded="MainExp_Expanded">
+                <Expander.Header>
+                    <TextBlock Text="منو" 
+                               Foreground="DarkGray"
+                               FontFamily="Fonts/#Sepahbod"
+                               FontSize="10"/>
+                </Expander.Header>
+               
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnSetting"
+                            Click="BtnSetting_Click" 
+                            IsTabStop="True"
+                            Content="تنظیمات"
+                            Width="50"
+                            Style="{StaticResource ButtonStyle1}">
+                    </Button>
+
+                    <Button Style="{StaticResource ButtonStyle1}"
+                            Content="درباره من"
+                            Width="50"/>
+                    <Button Style="{StaticResource ButtonStyle1}"
+                            Content="راهنما"
+                            Width="50"/>
+                </StackPanel>
+            </Expander>
+            
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                <Button Name="Btn_Exit" 
+                        Click="Exit"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Width="20"
+                        Height="20"
+                        Margin="0 10 10 0">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Name="EllipseBorder" Stroke="#F5CB5C"
+                                         StrokeThickness="1">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="#333533"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                <TextBlock Name="TxtExit" Text="X" 
+                                           Foreground="#CFDBD5" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" 
+                                         Value="True">
+                                    <Setter TargetName="EllipseBorder" Property="Ellipse.Fill" Value="#242423"/>
+                                    <Setter TargetName="EllipseBorder" Property="Stroke" Value="#E8EDDF" />
+                                    <Setter TargetName="TxtExit" Property="Foreground" Value="#F5CB5C"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <TextBlock Text="خروج" 
+                           FontFamily="Fonts/#Sepahbod"
+                           Foreground="DarkGray"
+                           Margin="8 0"
+                           FontSize="10"/>
+            </StackPanel>
+            
+        </DockPanel>
+        
+
+
+
+        <Label VerticalAlignment="Bottom"
+               HorizontalAlignment="Center" 
+               Grid.Row="2" 
+               FontFamily="LatinFonts/#biotech">
+            <Hyperlink NavigateUri="https://github.com/FallenStar-Dev?tab=repositories"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                <Hyperlink.Style>
+                    <Style TargetType="Hyperlink" 
+                           BasedOn="{StaticResource {x:Type Hyperlink}}">
+                        <Setter Property="Foreground" Value="Gray"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="white"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Hyperlink.Style>
+                                     Fallen Star Developer`s
+            </Hyperlink>
+        </Label>
+        
+
+    </Grid>
+</Window>
